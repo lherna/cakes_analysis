@@ -1,9 +1,12 @@
+#Define dependencies
 import requests 
 import pandas as pd
 
+#Define custom classes to be used in the program
 class MyException(Exception):
     pass
 
+#Define variables
 API_KEY = "API_KEY"
 
 api_url = "https://places.googleapis.com/v1/places:searchText"
@@ -28,16 +31,12 @@ payload = {
         } 
     } 
 
-#print(f"payload is {payload}")
-
-# Headers 
+# Headers used tied to the API URL
 headers = { 
     "Content-Type": "application/json", 
     "X-Goog-Api-Key": API_KEY, 
     "X-Goog-FieldMask": "places.displayName,places.formattedAddress,places.priceLevel,places.reviews" 
 } 
-
-#print(f"headers are {headers}")
 
 try:
     # Make the POST request 
@@ -47,12 +46,17 @@ try:
         #Store the JSON response 
         res = response.json()
         #Perform mapping for corresponding columns to be used in the dataframe
+        #1. Obtain the first and second level data from the JSON object
         df = pd.json_normalize(res["places"])
+        #2. Retrieve the data from beyond the second level nest of JSON objects
         df_exp = df.explode("reviews").reset_index(drop=True)
+        #3. Define a pandas dataframe for the flattened reviews
         revs_df = pd.json_normalize(df_exp["reviews"])
+        #4. Combine the original dataframe with the newly created dataframe for the reviews data
         df = pd.concat([df_exp.drop(columns=["reviews"]), revs_df], axis = 1)
-        #Filter for only US businesses
+        #5. Filter for only US businesses
         df = df[df["formattedAddress"].str.contains("USA")].reset_index(drop=True)
+        #6. Send to file
         df.to_csv("final_csv.csv")    
 
     else:
