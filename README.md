@@ -6,3 +6,8 @@ This project encompasses the workthrough of connecting to the google API, proces
 
 As we can see from the file named poc_cakes.py, the code goes through the API connection and leverages pandas dataframes to make the data available in a data friendly format.
 
+To run the poc_cakes.py file, we simply need to run it with the following command:
+
+python poc_cakes.py 
+
+Which will result in a file being created with the processed output. 
