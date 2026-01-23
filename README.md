@@ -11,3 +11,7 @@ To run the poc_cakes.py file, we simply need to run it with the following comman
 python poc_cakes.py 
 
 Which will result in a file being created with the processed output. 
+
+Once we have created the file successfully, the next thing will be to mount the code onto a glue job in AWS and process the file(s) to be delivered onto s3.
+From here, we will leverage Athena to further perform data wrangling and provide the finalized output to a "production" level S3 bucket where Snowflake will capture these data from.
+
