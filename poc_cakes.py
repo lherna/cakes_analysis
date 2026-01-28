@@ -54,7 +54,7 @@ try:
         print(f"Moving onto next page: {nextPage}.")
 
         # Generate a loop to iterate through all of the pages available for the data of interest
-        for i in range(2):
+        while nextPage:
             # Introduce a pause before the next page is extracted
             time.sleep(5)
             # Update the next page to be extracted
@@ -92,3 +92,4 @@ try:
 except: 
     print(f"API request failed with status code: {response.status_code}")
     print(f"The feedback given is {response.content}")
+
